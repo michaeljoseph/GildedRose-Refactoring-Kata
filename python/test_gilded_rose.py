@@ -44,14 +44,14 @@ def test_sulfaras_never_changes():
     assert_quality_changes(Item('Sulfuras, Hand of Ragnaros', 10, 10), 10, 0)
 
 
-def test_backstage_pass_under_ten_days_quality_plus_two():
+def test_backstage_pass_under_eleven_days_quality_plus_two():
     assert_quality_changes(
         Item('Backstage passes to a TAFKAL80ETC concert', 10, 10),
         12
     )
 
 
-def test_backstage_pass_under_five_days_quality_plus_three():
+def test_backstage_pass_under_six_days_quality_plus_three():
     assert_quality_changes(
         Item('Backstage passes to a TAFKAL80ETC concert', 4, 10),
         13
