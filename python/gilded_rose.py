@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 class GildedRose(object):
 
     def __init__(self, items):
@@ -37,6 +36,7 @@ class GildedRose(object):
 
 
 class Item:
+
     def __init__(self, name, sell_in, quality):
         self.name = name
         self.sell_in = sell_in
