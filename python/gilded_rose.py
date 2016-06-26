@@ -50,16 +50,16 @@ class GildedRose(object):
 
             # past sell by
             if item.sell_in < 0:
+                # brie quality increases past sell by
+                if item.name == BRIE:
+                    if item.quality < 50:
+                        item.quality += 1
                 if item.name != BRIE:
                     if item.name != BACKSTAGE_PASS:
                         item = GildedRose.decrease_item_quality(item)
                     # backstage is zero past sell by
                     else:
                         item.quality = 0
-                # brie quality increases past sell by
-                else:
-                    if item.quality < 50:
-                        item.quality += 1
 
 
 class Item:
