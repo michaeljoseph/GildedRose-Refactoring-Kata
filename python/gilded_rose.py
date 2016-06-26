@@ -12,39 +12,40 @@ class GildedRose(object):
 
     def update_quality(self):
         for item in self.items:
-            # quality decreases for normal items
-            if is_normal_item(item):
+
+            if is_improving_item(item):
+                # quality increases for abnormal items
+                if item.name == BACKSTAGE_PASS:
+                    if 6 <= item.sell_in < 11:
+                        item.quality = increase_item_quality(item, increment=2)
+                    elif item.sell_in < 6:
+                        item.quality = increase_item_quality(item, increment=3)
+                    else:
+                        item.quality = increase_item_quality(item)
+                else:
+                    item.quality = increase_item_quality(item)
+            else:
+                # quality decreases for normal items
                 item.quality = decrease_item_quality(item)
                 if is_conjured_item(item):
                     item.quality = decrease_item_quality(item)
-
-            # quality increases for abnormal items
-            else:
-                # quality cannot increase beyond 50
-                if item.quality < 50:
-                    item.quality += 1
-                    if item.name == BACKSTAGE_PASS:
-                        if item.sell_in < 11:
-                            item.quality = increase_item_quality(item)
-                        if item.sell_in < 6:
-                            item.quality = increase_item_quality(item)
 
             # sell by always decreases (except sulfuras)
             if item_can_change(item):
                 item.sell_in -= 1
 
-            # past sell by
+            # cumulative quality change if now past sell by
             if item.sell_in < 0:
-                # brie quality increases past sell by (cumulative=2) ?
-                if item.name == BRIE:
-                    item.quality = increase_item_quality(item)
+                if is_improving_item(item):
+                    # brie quality increases past sell by (cumulative=2) ?
+                    if item.name == BRIE:
+                        item.quality = increase_item_quality(item)
 
-                # backstage is zero past sell by
-                if item.name == BACKSTAGE_PASS:
-                    item.quality = 0
-
-                # normal items decrease past sell by (cumulative=2)
-                if is_normal_item(item):
+                    # backstage is zero past sell by
+                    if item.name == BACKSTAGE_PASS:
+                        item.quality = 0
+                else:
+                    # normal items decrease past sell by (cumulative=2)
                     item.quality = decrease_item_quality(item)
                     if is_conjured_item(item):
                         item.quality = decrease_item_quality(item)
@@ -71,6 +72,10 @@ def item_can_change(item):
 def is_normal_item(item):
     """Normal items decrease in quality"""
     return item.name not in [BRIE, BACKSTAGE_PASS]
+
+
+def is_improving_item(item):
+    return item.name in [BRIE, BACKSTAGE_PASS]
 
 
 def is_conjured_item(item):
