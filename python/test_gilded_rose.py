@@ -58,10 +58,17 @@ def test_backstage_pass_under_five_days_quality_plus_three():
     )
 
 
-def test_backstage_pass_under_five_days_zero_quality():
+def test_backstage_pass_past_sellby_zero_quality():
     assert_quality_changes(
         Item('Backstage passes to a TAFKAL80ETC concert', 0, 10),
         0
+    )
+
+
+def test_backstage_pass_never_exceeds_fifty_quality():
+    assert_quality_changes(
+        Item('Backstage passes to a TAFKAL80ETC concert', 5, 49),
+        50
     )
 
 
