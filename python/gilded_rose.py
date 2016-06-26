@@ -9,16 +9,25 @@ class GildedRose(object):
     def __init__(self, items):
         self.items = items
 
+    @staticmethod
+    def is_normal_item(item):
+        return item.name not in [BRIE, BACKSTAGE_PASS]
+
+    @staticmethod
+    def item_can_change(item):
+        return item.name not in [SULFURAS]
+
     def update_quality(self):
         for item in self.items:
-            # quality decreases
-            if item.name != BRIE and item.name != BACKSTAGE_PASS:
+            # quality decreases for normal items
+            if GildedRose.is_normal_item(item):
                 # quality cannot decrease beyond zero
                 if item.quality > 0:
                     # sulfuras never changes
-                    if item.name != SULFURAS:
+                    if GildedRose.item_can_change(item):
                         item.quality = item.quality - 1
-            # quality increases
+
+            # quality increases for abnormal items
             else:
                 # quality cannot increase beyond 50
                 if item.quality < 50:
@@ -32,7 +41,7 @@ class GildedRose(object):
                                 item.quality = item.quality + 1
 
             # sell by always decreases (except sulfuras)
-            if item.name != SULFURAS:
+            if GildedRose.item_can_change(item):
                 item.sell_in = item.sell_in - 1
 
             # past sell by
