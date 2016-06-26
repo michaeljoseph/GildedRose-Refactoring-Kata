@@ -25,24 +25,24 @@ class GildedRose(object):
                 if item.quality > 0:
                     # sulfuras never changes
                     if GildedRose.item_can_change(item):
-                        item.quality = item.quality - 1
+                        item.quality -= 1
 
             # quality increases for abnormal items
             else:
                 # quality cannot increase beyond 50
                 if item.quality < 50:
-                    item.quality = item.quality + 1
+                    item.quality += 1
                     if item.name == BACKSTAGE_PASS:
                         if item.sell_in < 11:
                             if item.quality < 50:
-                                item.quality = item.quality + 1
+                                item.quality += 1
                         if item.sell_in < 6:
                             if item.quality < 50:
-                                item.quality = item.quality + 1
+                                item.quality += 1
 
             # sell by always decreases (except sulfuras)
             if GildedRose.item_can_change(item):
-                item.sell_in = item.sell_in - 1
+                item.sell_in -= 1
 
             # past sell by
             if item.sell_in < 0:
@@ -51,14 +51,14 @@ class GildedRose(object):
                         # normal item
                         if item.quality > 0:
                             if item.name != SULFURAS:
-                                item.quality = item.quality - 1
+                                item.quality -= 1
                     # backstage is zero past sell by
                     else:
-                        item.quality = item.quality - item.quality
+                        item.quality = 0
                 # brie quality increases past sell by
                 else:
                     if item.quality < 50:
-                        item.quality = item.quality + 1
+                        item.quality += 1
 
 
 class Item:
