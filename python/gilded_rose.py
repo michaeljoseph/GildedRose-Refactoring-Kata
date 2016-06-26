@@ -25,6 +25,12 @@ class GildedRose(object):
                 item.quality -= 1
         return item
 
+    @staticmethod
+    def increase_item_quality(item):
+        if item.quality < 50:
+            item.quality += 1
+        return item
+
     def update_quality(self):
         for item in self.items:
             # quality decreases for normal items
@@ -38,11 +44,9 @@ class GildedRose(object):
                     item.quality += 1
                     if item.name == BACKSTAGE_PASS:
                         if item.sell_in < 11:
-                            if item.quality < 50:
-                                item.quality += 1
+                            item = GildedRose.increase_item_quality(item)
                         if item.sell_in < 6:
-                            if item.quality < 50:
-                                item.quality += 1
+                            item = GildedRose.increase_item_quality(item)
 
             # sell by always decreases (except sulfuras)
             if GildedRose.item_can_change(item):
@@ -52,15 +56,14 @@ class GildedRose(object):
             if item.sell_in < 0:
                 # brie quality increases past sell by
                 if item.name == BRIE:
-                    if item.quality < 50:
-                        item.quality += 1
+                    item = GildedRose.increase_item_quality(item)
+
                 # backstage is zero past sell by
                 if item.name == BACKSTAGE_PASS:
                     item.quality = 0
 
-                if item.name != BRIE:
-                    if item.name != BACKSTAGE_PASS:
-                        item = GildedRose.decrease_item_quality(item)
+                if GildedRose.is_normal_item(item):
+                    item = GildedRose.decrease_item_quality(item)
 
 
 class Item:
