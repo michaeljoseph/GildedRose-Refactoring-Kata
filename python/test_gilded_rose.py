@@ -20,11 +20,11 @@ def assert_quality_changes(item, expected_quality, sell_in_change=-1):
     )
 
 
-def test_sellby_and_quality_decrease():
+def test_normal_items_quality_decreases_by_one():
     assert_quality_changes(Item('foo', 1, 1), 0)
 
 
-def test_quality_decreases_twice_as_fast_after_sellby():
+def test_normal_items_quality_decreases_by_two_after_sellby():
     assert_quality_changes(Item('foo', 0, 10), 8)
 
 
@@ -36,7 +36,7 @@ def test_brie_increases_in_quality_pass_sellby():
     assert_quality_changes(Item('Aged Brie', -1, 10), 12)
 
 
-def test_brie_quality_stays_at_fifty():
+def test_brie_quality_never_exceeds_fifty():
     assert_quality_changes(Item('Aged Brie', 10, 50), 50)
 
 
