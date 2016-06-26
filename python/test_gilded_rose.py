@@ -72,9 +72,18 @@ def test_backstage_pass_never_exceeds_fifty_quality():
     )
 
 
-"""
-    Item(name="Conjured Mana Cake", sell_in=3, quality=6),  # <-- :O
-"""
+def test_conjured_decreases_by_two_before_sellby():
+    assert_quality_changes(
+        Item('Conjured Mana Cake', 3, 6),
+        4
+    )
+
+
+def test_conjured_decreases_by_four_before_sellby():
+    assert_quality_changes(
+        Item('Conjured Mana Cake', -1, 6),
+        2
+    )
 
 
 def test_integration():

@@ -2,6 +2,7 @@
 BRIE = 'Aged Brie'
 BACKSTAGE_PASS = 'Backstage passes to a TAFKAL80ETC concert'
 SULFURAS = 'Sulfuras, Hand of Ragnaros'
+CONJURED = 'Conjured Mana Cake'
 
 
 class GildedRose(object):
@@ -14,6 +15,9 @@ class GildedRose(object):
             # quality decreases for normal items
             if is_normal_item(item):
                 item.quality = decrease_item_quality(item)
+                if is_conjured_item(item):
+                    item.quality = decrease_item_quality(item)
+
             # quality increases for abnormal items
             else:
                 # quality cannot increase beyond 50
@@ -24,6 +28,7 @@ class GildedRose(object):
                             item.quality = increase_item_quality(item)
                         if item.sell_in < 6:
                             item.quality = increase_item_quality(item)
+
             # sell by always decreases (except sulfuras)
             if item_can_change(item):
                 item.sell_in -= 1
@@ -41,6 +46,8 @@ class GildedRose(object):
                 # normal items decrease past sell by (cumulative=2)
                 if is_normal_item(item):
                     item.quality = decrease_item_quality(item)
+                    if is_conjured_item(item):
+                        item.quality = decrease_item_quality(item)
 
 
 def increase_item_quality(item, increment=1):
@@ -64,6 +71,10 @@ def item_can_change(item):
 def is_normal_item(item):
     """Normal items decrease in quality"""
     return item.name not in [BRIE, BACKSTAGE_PASS]
+
+
+def is_conjured_item(item):
+    return item.name in [CONJURED]
 
 
 class Item:
