@@ -54,12 +54,13 @@ class GildedRose(object):
                 if item.name == BRIE:
                     if item.quality < 50:
                         item.quality += 1
+                # backstage is zero past sell by
+                if item.name == BACKSTAGE_PASS:
+                    item.quality = 0
+
                 if item.name != BRIE:
                     if item.name != BACKSTAGE_PASS:
                         item = GildedRose.decrease_item_quality(item)
-                    # backstage is zero past sell by
-                    else:
-                        item.quality = 0
 
 
 class Item:
