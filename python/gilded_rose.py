@@ -52,9 +52,10 @@ class GildedRose(object):
 
 
 def increase_item_quality(item, increment=1):
-    if item.quality < 50:
-        item.quality += increment
-    return item.quality
+    quality = item.quality + increment
+    if quality > 50:
+        quality = 50
+    return quality
 
 
 def decrease_item_quality(item):
