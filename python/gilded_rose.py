@@ -31,7 +31,7 @@ class GildedRose(object):
                     item.quality = decrease_item_quality(item)
 
             # sell by always decreases (except sulfuras)
-            if item_can_change(item):
+            if not is_immutable(item):
                 item.sell_in -= 1
 
             # cumulative quality change if now past sell by
@@ -59,7 +59,7 @@ def increase_item_quality(item, increment=1):
 
 def decrease_item_quality(item):
     if item.quality > 0:
-        if item_can_change(item):
+        if not is_immutable(item):
             item.quality -= 1
     return item.quality
 
@@ -67,6 +67,11 @@ def decrease_item_quality(item):
 def item_can_change(item):
     """Sulfuras never changes"""
     return item.name not in [SULFURAS]
+
+
+def is_immutable(item):
+    """Sulfuras never changes"""
+    return item.name in [SULFURAS]
 
 
 def is_normal_item(item):
